@@ -7,7 +7,7 @@ export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 PYTHON="${PYTHON:-python}"
 CONFIG="${CONFIG:-configs/training_fragment_bond_flow.yml}"
-VOCAB="${VOCAB:-data/processed/crossdocked_rbrics_100k.vocab.json}"
+VOCAB="${VOCAB:-artifacts/metadata/crossdocked_rbrics_dummy_100k.vocab.json}"
 PFFM_CHECKPOINT="${PFFM_CHECKPOINT:-checkpoints/pffm_esm2_residue_hypergraph.pt}"
 ATOM_ONLY_CHECKPOINT="${ATOM_ONLY_CHECKPOINT:-checkpoints/pffm_atom_only.pt}"
 PROPERTY_CHECKPOINT="${PROPERTY_CHECKPOINT:-checkpoints/fragment_property_qed.pt}"

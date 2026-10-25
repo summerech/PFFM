@@ -24,7 +24,8 @@ models/                  Final PFFM flow and physical-refinement models
 scripts/                 Training, sampling, assembly, docking, and evaluation
 utils/                   Protein/ligand transforms, r-BRICS, assembly, metrics
 paper_results/           Machine-readable values reported by the paper
-checkpoints/             Checkpoint manifest (weights are not bundled)
+checkpoints/             Verified final model and ablation weights
+artifacts/               Exact split, vocabulary, raw poses, and docking records
 docs/                    Data layout and reproducibility notes
 ```
 
@@ -39,7 +40,7 @@ Install a compatible CUDA build of PyTorch Geometric and `torch-scatter` if your
 
 ## Required data and checkpoints
 
-See `docs/DATA.md` and `checkpoints/README.md`. Large CrossDocked files, ESM2 weights, generated poses, and trained checkpoints are intentionally not duplicated in this source archive.
+See `docs/DATA.md`, `checkpoints/README.md`, and `artifacts/README.md`. The final weights, vocabulary, public split, 30,000 main-run raw poses, and per-molecule docking records are included. The raw CrossDocked dataset, ESM2 upstream weights, prepared receptors, and docked pose files are not duplicated; obtain or regenerate them as described in the artifact notes.
 
 ## Main paper configuration
 
@@ -59,7 +60,9 @@ Run the final generation protocol with:
 bash scripts/run_paper_generation.sh
 ```
 
-The script is resumable by per-seed marker files and uses environment variables for machine-specific paths. It performs raw generation, fragment assembly, unified docking, and pocket-macro aggregation without Vina-based selection or reranking.
+The script is resumable by per-seed marker files and uses environment variables for machine-specific paths. It performs raw generation, fragment assembly, unified docking, and pocket-macro aggregation without Vina-based selection or reranking. For the exact eight-shard seed schedule of the reported run, see `artifacts/metadata/run_pocket_encoder_esm2_full100.sh` and `artifacts/metadata/run_pfmol_formal_ablation.sh`.
+
+Validate the released files against the reported three-seed result with `python scripts/verify_release_artifacts.py`.
 
 ## Ablations
 

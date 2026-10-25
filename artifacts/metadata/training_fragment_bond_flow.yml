@@ -1,0 +1,96 @@
+data:
+  name: pl
+  path: ./data/crossdocked_v1.1_rmsd1.0_pocket10
+  split: ./data/crossdocked_pocket10_pose_split.pt
+  fragment_cache: ./data/processed/crossdocked_rbrics_2k.lmdb
+  transform:
+    ligand_atom_mode: add_aromatic
+    random_rot: False
+
+model:
+  model_mean_type: C0
+  beta_schedule: sigmoid
+  beta_start: 1.e-7
+  beta_end: 2.e-3
+  v_beta_schedule: cosine
+  v_beta_s: 0.01
+  num_diffusion_timesteps: 1000
+  loss_v_weight: 100.
+  sample_time_method: symmetric
+  flow_noise_scale: 1.0
+  flow_prediction_type: endpoint
+  flow_endpoint_loss_weight: noise
+  flow_min_time_weight: 0.25
+  flow_max_velocity: 20.0
+
+  adr_enabled: True
+  adr_probability: 0.25
+  adr_min_delta: 0.02
+  adr_max_delta: 0.10
+  loss_adr_weight: 0.5
+  loss_adr_endpoint_weight: 0.1
+  loss_adr_bond_weight: 1.0
+  loss_adr_bond_endpoint_weight: 0.1
+
+  loss_bond_geometry_weight: 2.0
+  loss_pair_geometry_weight: 0.5
+  pair_geometry_cutoff: 4.5
+  loss_fragment_geometry_weight: 0.5
+  loss_junction_capacity_weight: 0.2
+  loss_junction_valence_weight: 0.1
+  junction_candidate_cutoff: 3.0
+
+  bond_flow_enabled: True
+  num_bond_classes: 5
+  loss_bond_weight: 2.0
+  loss_bond_ce_weight: 0.2
+  loss_connectivity_weight: 5.0
+  bond_no_bond_weight: 0.1
+
+  time_emb_dim: 32
+  time_emb_mode: sin
+  time_emb_separate: True
+  center_pos_mode: protein
+  node_indicator: True
+  model_type: uni_o2
+  num_blocks: 1
+  num_layers: 9
+  hidden_dim: 128
+  n_heads: 16
+  edge_feat_dim: 4
+  num_r_gaussian: 20
+  knn: 32
+  num_node_types: 8
+  act_fn: relu
+  norm: True
+  cutoff_mode: knn
+  ew_net_type: global
+  num_x2h: 1
+  num_h2x: 1
+  r_max: 10.
+  x2h_out_fc: False
+  sync_twoup: False
+
+train:
+  seed: 2021
+  batch_size: 4
+  num_workers: 4
+  n_acc_batch: 1
+  max_iters: 2000
+  val_freq: 500
+  pos_noise_std: 0.1
+  max_grad_norm: 8.0
+  optimizer:
+    type: adam
+    lr: 1.e-4
+    backbone_lr: 1.e-5
+    new_module_lr: 1.e-4
+    freeze_pretrained_iters: 0
+    weight_decay: 0
+    beta1: 0.95
+    beta2: 0.999
+  scheduler:
+    type: plateau
+    factor: 0.6
+    patience: 10
+    min_lr: 1.e-6
