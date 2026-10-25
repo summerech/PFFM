@@ -42,6 +42,12 @@ Install a compatible CUDA build of PyTorch Geometric and `torch-scatter` if your
 
 See `docs/DATA.md`, `checkpoints/README.md`, and `artifacts/README.md`. The final weights, vocabulary, public split, 30,000 main-run raw poses, and per-molecule docking records are included. The raw CrossDocked dataset, ESM2 upstream weights, prepared receptors, and docked pose files are not duplicated; obtain or regenerate them as described in the artifact notes.
 
+### External sources
+
+- **CrossDocked2020 v1.1 raw structures:** [official University of Pittsburgh archive](https://bits.csb.pitt.edu/files/crossdock2020/v1.1/). Use v1.1 rather than the newer v1.3 for this experiment.
+- **Processed pocket10 training data and test structures:** follow the [official TargetDiff data instructions](https://github.com/guanjq/targetdiff/blob/main/README.md#data) to download `crossdocked_v1.1_rmsd1.0_pocket10_processed_final.lmdb` and `test_set.zip`. The exact PFFM split is already included at `artifacts/metadata/crossdocked_pocket10_pose_split.pt`.
+- **Pretrained protein encoder:** [Meta's Hugging Face ESM2-T6 model](https://huggingface.co/facebook/esm2_t6_8M_UR50D), pinned to [revision `c731040fcd8d73dceaa04b0a8e6329b345b0f5df`](https://huggingface.co/facebook/esm2_t6_8M_UR50D/tree/c731040fcd8d73dceaa04b0a8e6329b345b0f5df). The encoder loads from the local Hugging Face cache, so download it before offline sampling.
+
 ## Main paper configuration
 
 - Public CrossDocked2020 pocket10 split: 100 test pockets.
