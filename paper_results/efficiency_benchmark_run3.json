@@ -1,0 +1,38 @@
+{
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "cuda": "11.3",
+    "torch": "1.12.1+cu113",
+    "python": "3.10.20"
+  },
+  "protocol": {
+    "batch_size": 8,
+    "warmup": 10,
+    "train_steps": 50,
+    "inference_steps": 100,
+    "training_scope": "full model forward, backward, and optimizer step",
+    "inference_scope": "pocket encoder forward only"
+  },
+  "results": [
+    {
+      "mode": "residue_graph",
+      "checkpoint": "short_benchmark/pocket_encoder_ablation/checkpoints/residue_graph.pt",
+      "peak_allocated_mib": 405.57568359375,
+      "peak_reserved_mib": 446.0,
+      "training_seconds": 5.6027861051261425,
+      "training_pockets_per_second": 71.39305204495118,
+      "encoder_latency_ms_per_batch": 33.89135879516601,
+      "encoder_latency_ms_per_pocket": 4.236419849395752
+    },
+    {
+      "mode": "residue_hypergraph",
+      "checkpoint": "short_benchmark/pocket_encoder_ablation/checkpoints/residue_hypergraph.pt",
+      "peak_allocated_mib": 417.658203125,
+      "peak_reserved_mib": 466.0,
+      "training_seconds": 9.968935873359442,
+      "training_pockets_per_second": 40.124643701334556,
+      "encoder_latency_ms_per_batch": 117.61430549621582,
+      "encoder_latency_ms_per_pocket": 14.701788187026978
+    }
+  ]
+}

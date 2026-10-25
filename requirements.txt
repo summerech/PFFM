@@ -1,0 +1,15 @@
+easydict
+lmdb
+meeko>=0.5
+numpy<2
+pandas
+posebusters>=0.3
+pyyaml
+rdkit>=2023.09
+scikit-learn
+scipy
+torch>=2.1
+torch-geometric>=2.4
+transformers>=4.35
+tqdm
+vina>=1.2

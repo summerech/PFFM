@@ -1,0 +1,27 @@
+name: pffm-paper
+channels:
+  - pytorch
+  - nvidia
+  - pyg
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch>=2.1
+  - pytorch-cuda=12.1
+  - pyg>=2.4
+  - pytorch-scatter
+  - rdkit>=2023.09
+  - python-lmdb
+  - numpy<2
+  - pandas
+  - scipy
+  - scikit-learn
+  - pyyaml
+  - tqdm
+  - pip
+  - pip:
+      - easydict
+      - transformers>=4.35
+      - meeko>=0.5
+      - posebusters>=0.3
+      - vina>=1.2

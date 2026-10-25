@@ -1,0 +1,93 @@
+# PFFM Paper Code
+
+This archive contains the code paths used by the manuscript **PFFM: Protein-Aware Fragment Flow Matching for Structure-Based Drug Design**. It is a cleaned research package rather than a snapshot of every exploratory experiment.
+
+## Included paper components
+
+1. **Protein-aware pocket encoder**: frozen ESM2-T6 residue embeddings, a 5 A residue hypergraph, and atom-level equivariant pocket messages.
+2. **r-BRICS fragment representation**: vocabulary construction, LMDB cache construction, fragment property pretraining, and fragment graph assembly.
+3. **Joint fragment flow**: continuous fragment-center flow plus discrete fragment identity, attachment-capacity, and edge-state prediction.
+4. **Controllable sampling**: heavy-atom/QED classifier-free guidance with the manuscript setting `CFG=2.0`.
+5. **Chemical constraints**: capacity-aware connected decoding and attachment/valency-aware assembly.
+6. **Unified evaluation**: qvina2.1 redocking, HA@-7, HA-reference, QED, SA, LogP, Lipinski, Diversity, Validity, Uniqueness, and scored coverage.
+7. **Physical refinement**: the topology-preserving refiner and the frozen balanced rigid/torsion energy-guidance configuration.
+8. **Paper analyses**: ESM2/hypergraph, no-CFG, and no-constraint ablations; CFG Pareto sweep; pocket-encoder efficiency; and the fixed-test refinement comparison.
+
+The archive intentionally excludes the earlier 1D SELFIES generator, abandoned coordinate-flow prototypes, failed-pocket-specific tuning, post-hoc Vina reranking, preference-screening experiments, and superseded refiner generations.
+
+## Repository layout
+
+```text
+configs/                 CrossDocked/PFFM model configuration
+datasets/                CrossDocked and fragment-cache loaders
+models/                  Final PFFM flow and physical-refinement models
+scripts/                 Training, sampling, assembly, docking, and evaluation
+utils/                   Protein/ligand transforms, r-BRICS, assembly, metrics
+paper_results/           Machine-readable values reported by the paper
+checkpoints/             Checkpoint manifest (weights are not bundled)
+docs/                    Data layout and reproducibility notes
+```
+
+## Environment
+
+```bash
+conda env create -f environment.yml
+conda activate pffm-paper
+```
+
+Install a compatible CUDA build of PyTorch Geometric and `torch-scatter` if your platform does not resolve them automatically. qvina2.1 is an external executable and must be supplied through `QVINA_BIN`.
+
+## Required data and checkpoints
+
+See `docs/DATA.md` and `checkpoints/README.md`. Large CrossDocked files, ESM2 weights, generated poses, and trained checkpoints are intentionally not duplicated in this source archive.
+
+## Main paper configuration
+
+- Public CrossDocked2020 pocket10 split: 100 test pockets.
+- Three seeds: 2021, 2022, and 2023.
+- 100 requested molecules per pocket and seed.
+- 100 Euler flow steps.
+- Target heavy atoms: 28; target QED: 0.8.
+- CFG scale: 2.0; property dropout during training: 0.15.
+- Token temperature: 0.9.
+- Pocket encoder: `esm2_residue_hypergraph`.
+- Docking: qvina2.1, reference-ligand-centered 20 A cube, exhaustiveness 8, 9 modes, seed 17.
+
+Run the final generation protocol with:
+
+```bash
+bash scripts/run_paper_generation.sh
+```
+
+The script is resumable by per-seed marker files and uses environment variables for machine-specific paths. It performs raw generation, fragment assembly, unified docking, and pocket-macro aggregation without Vina-based selection or reranking.
+
+## Ablations
+
+```bash
+bash scripts/run_paper_ablations.sh
+```
+
+This reproduces only the ablations retained in the manuscript:
+
+- full PFFM;
+- without ESM2 + residue hypergraph;
+- without CFG;
+- without connectivity/junction constraints.
+
+## Physical refinement
+
+The manuscript reports a frozen one-shot comparison on five held-out pockets. Configure the checkpoint and input paths, then run:
+
+```bash
+bash scripts/run_paper_refinement.sh
+```
+
+The balanced parameters are frozen in the script and match the manuscript.
+
+## Provenance
+
+`paper_results/PROVENANCE.md` records sample counts and the unified docking protocol. The JSON/CSV files in `paper_results/` are copied from the final manuscript package. No published baseline values are substituted when official samples are unavailable.
+
+## Upstream notice
+
+The dataset loaders and selected utility structure originated from the public TargetDiff codebase and are distributed with its license in `LICENSE_TARGETDIFF`. PFFM-specific fragment flow, multiscale protein encoding, constrained decoding, and refinement extensions are identified in `docs/CODE_MAP.md`.
