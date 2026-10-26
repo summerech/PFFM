@@ -1,6 +1,6 @@
 # PFFM Paper Code
 
-This archive contains the code paths used by the manuscript **PFFM: Protein-Aware Fragment Flow Matching for Structure-Based Drug Design**. It is a cleaned research package rather than a snapshot of every exploratory experiment.
+This archive contains the code paths used by the manuscript **PFFM: Protein-Aware Fragment Flow Matching for Structure-Based Drug Design**.
 
 ## Included paper components
 
@@ -12,8 +12,6 @@ This archive contains the code paths used by the manuscript **PFFM: Protein-Awar
 6. **Unified evaluation**: qvina2.1 redocking, HA@-7, HA-reference, QED, SA, LogP, Lipinski, Diversity, Validity, Uniqueness, and scored coverage.
 7. **Physical refinement**: the topology-preserving refiner and the frozen balanced rigid/torsion energy-guidance configuration.
 8. **Paper analyses**: ESM2/hypergraph, no-CFG, and no-constraint ablations; CFG Pareto sweep; pocket-encoder efficiency; and the fixed-test refinement comparison.
-
-The archive intentionally excludes the earlier 1D SELFIES generator, abandoned coordinate-flow prototypes, failed-pocket-specific tuning, post-hoc Vina reranking, preference-screening experiments, and superseded refiner generations.
 
 ## Repository layout
 
