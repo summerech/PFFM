@@ -29,12 +29,34 @@ docs/                    Data layout and reproducibility notes
 
 ## Environment
 
+The reported model was trained and sampled with Python 3.10.20, PyTorch
+1.12.1+cu113, and PyTorch Geometric 2.2.0. Docking preparation used a separate
+Python 3.10.20 environment with Meeko 0.7.1 and RDKit 2026.3.4. These are the
+observed experiment versions, not the newer PyTorch environment installed on
+the local Windows workstation.
+
 ```bash
 conda env create -f environment.yml
-conda activate pffm-paper
+conda env create -f environment-docking.yml
+conda run -n pffm-paper python -c "import torch; print(torch.__version__, torch.version.cuda)"
 ```
 
-Install a compatible CUDA build of PyTorch Geometric and `torch-scatter` if your platform does not resolve them automatically. qvina2.1 is an external executable and must be supplied through `QVINA_BIN`.
+`environment.yml` pins the CUDA 11.3 PyTorch wheel and its matching PyG wheels.
+The docking environment supplies the Meeko preparation commands. For the
+convenience runner, set `PYTHON` to the model environment's Python and
+`DOCKING_PYTHON` to the docking environment's Python; the latter defaults to
+`PYTHON` for an existing combined environment. For example, on Linux:
+
+```bash
+PYTHON=/path/to/envs/pffm-paper/bin/python \
+DOCKING_PYTHON=/path/to/envs/pffm-docking/bin/python \
+QVINA_BIN=/path/to/qvina2.1 bash scripts/run_paper_generation.sh
+```
+
+qvina2.1 is an external executable, not a Conda/Python dependency. Set
+`QVINA_BIN` to its location. CUDA 11.3-compatible NVIDIA drivers and Linux
+x86-64 were used for the reported run; other platforms may need different
+binary wheels.
 
 ## Required data and checkpoints
 

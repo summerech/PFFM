@@ -1,27 +1,28 @@
 name: pffm-paper
 channels:
-  - pytorch
-  - nvidia
-  - pyg
   - conda-forge
 dependencies:
-  - python=3.10
-  - pytorch>=2.1
-  - pytorch-cuda=12.1
-  - pyg>=2.4
-  - pytorch-scatter
-  - rdkit>=2023.09
-  - python-lmdb
-  - numpy<2
-  - pandas
-  - scipy
-  - scikit-learn
-  - pyyaml
-  - tqdm
+  - python=3.10.20
   - pip
   - pip:
-      - easydict
-      - transformers>=4.35
-      - meeko>=0.5
-      - posebusters>=0.3
-      - vina>=1.2
+      # Versions observed in the paper's training and sampling environment.
+      - --extra-index-url https://download.pytorch.org/whl/cu113
+      - --find-links https://data.pyg.org/whl/torch-1.12.1+cu113.html
+      - torch==1.12.1+cu113
+      - torch-geometric==2.2.0
+      - torch-scatter==2.1.0+pt112cu113
+      - torch-sparse==0.6.16+pt112cu113
+      - torch-cluster==1.6.0+pt112cu113
+      - rdkit==2022.9.5
+      - numpy==1.23.5
+      - pandas==2.3.3
+      - scipy==1.11.4
+      - scikit-learn==1.7.2
+      - lmdb==2.3.0
+      - PyYAML==6.0.3
+      - tqdm==4.69.0
+      - easydict==1.13
+      - transformers==4.40.2
+      - huggingface-hub==0.36.2
+      - posebusters==0.3.1
+      - vina==1.2.7

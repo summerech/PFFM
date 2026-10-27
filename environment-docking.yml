@@ -1,0 +1,15 @@
+name: pffm-docking
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10.20
+  - pip
+  - pip:
+      # Versions observed in the separate ligand/receptor preparation environment.
+      - meeko==0.7.1
+      - rdkit==2026.3.4
+      - numpy==1.26.4
+      - pandas==2.3.3
+      - scipy==1.11.4
+      - PyYAML==6.0.3
+      - tqdm==4.69.0

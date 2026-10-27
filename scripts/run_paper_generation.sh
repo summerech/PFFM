@@ -6,6 +6,7 @@ cd "$ROOT"
 export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 PYTHON="${PYTHON:-python}"
+DOCKING_PYTHON="${DOCKING_PYTHON:-$PYTHON}"
 CONFIG="${CONFIG:-configs/training_fragment_bond_flow.yml}"
 VOCAB="${VOCAB:-artifacts/metadata/crossdocked_rbrics_dummy_100k.vocab.json}"
 PFFM_CHECKPOINT="${PFFM_CHECKPOINT:-checkpoints/pffm_esm2_residue_hypergraph.pt}"
@@ -66,7 +67,7 @@ for seed in "${SEED_LIST[@]}"; do
     [[ -f "$out/dock_done/$pocket.done" ]] && continue
     while [[ $(jobs -rp | wc -l) -ge "$MAX_DOCKING_JOBS" ]]; do wait -n; done
     (
-      "$PYTHON" scripts/crossdocked_pamol_style_docking.py \
+      "$DOCKING_PYTHON" scripts/crossdocked_pamol_style_docking.py \
         --input "$out/manifest_pocket${pocket}.csv" \
         --out "$out/docked_csv/pocket_${pocket}.csv" --data-root "$DATA_ROOT" \
         --prepared-root "$OUTPUT_ROOT/prepared_receptors_box20" \
